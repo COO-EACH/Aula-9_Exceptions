@@ -1,0 +1,93 @@
+mysql -u root   (sem senha)
+create database coo2017;
+use coo2017;
+
+create table Item (
+   codigo  int unsigned not null primary key,
+   qtdTotalExemplares int unsigned not null,
+   qtdExemplaresDisponiveis int unsigned not null,
+   qtdExemplaresEmprestados int unsigned not null
+); 
+
+create table Livro (
+   autores varchar(100) not null,
+   titulo varchar(50) not null,
+   codigo int unsigned not null,
+   constraint fk_Livro_Item FOREIGN KEY (codigo) REFERENCES Item (codigo)
+); 
+
+create table CD (
+   artista varchar(100) not null,
+   album varchar(50) not null,
+   codigo int unsigned not null,
+   constraint fk_CD_Item FOREIGN KEY (codigo) REFERENCES Item (codigo)
+); 
+
+create table Usuario (
+   codigo int unsigned not null primary key,
+   nome varchar(50) not null
+); 
+
+create table Emprestimo (
+   codigoEmprestimo  int unsigned not null auto_increment primary key,
+   codigoItem int unsigned not null,
+   codigoUsuario int unsigned not null,
+   finalizado boolean not null,
+   constraint fk_Emprestimo_Item FOREIGN KEY (codigoItem) REFERENCES Item (codigo),
+   constraint fk_Emprestimo_Usuario FOREIGN KEY (codigoUsuario) REFERENCES Usuario (codigo)
+); 
+
+INSERE USUÁRIOS
+----------------
+insert into Usuario (nome, codigo) values ("Alexandre", 1);
+insert into Usuario (nome, codigo) values ("Fernando", 2);
+insert into Usuario (nome, codigo) values ("Adriano", 3);
+
+Consulta para checar se deu tudo certo: 
+   select * from Usuario;
+
+INSERE LIVROS
+----------------
+insert into Item (qtdTotalExemplares, qtdExemplaresDisponiveis, qtdExemplaresEmprestados, codigo) values (3, 3, 0, 1);
+insert into Livro (autores, titulo, codigo) values ("Paul Deitel, Harvey Deitel", "Java Como Programar", 1);
+
+insert into Item (qtdTotalExemplares, qtdExemplaresDisponiveis, qtdExemplaresEmprestados, codigo) values (3, 3, 0, 2);
+insert into Livro (autores, titulo, codigo) values ("GoF", "Padrões de Projeto", 2);
+
+Consulta para checar se deu tudo certo: 
+   select * from Livro;
+   select * from Item;
+
+INSERE CDs
+----------------
+insert into Item (qtdTotalExemplares, qtdExemplaresDisponiveis, qtdExemplaresEmprestados, codigo) values (3, 3, 0, 3);
+insert into CD (artista, album, codigo) values ("Arnaldo Antunes", "A Casa é Sua", 3);
+
+insert into Item (qtdTotalExemplares, qtdExemplaresDisponiveis, qtdExemplaresEmprestados, codigo) values (3, 3, 0, 4);
+insert into CD (artista, album, codigo) values ("Maria Rita", "Samba Meu", 4);
+
+Consulta para checar se deu tudo certo: 
+   select * from CD;
+   select * from Item;
+
+
+INSERE Emprestimos
+-------------------
+insert into Emprestimo (codigoItem, codigoUsuario, finalizado) values (1, 1, false);
+update Item set qtdExemplaresDisponiveis = qtdExemplaresDisponiveis - 1, qtdExemplaresEmprestados = qtdExemplaresEmprestados + 1 where codigo = 1;
+
+insert into Emprestimo (codigoItem, codigoUsuario, finalizado) values (2, 1, false);
+update Item set qtdExemplaresDisponiveis = qtdExemplaresDisponiveis - 1, qtdExemplaresEmprestados = qtdExemplaresEmprestados + 1 where codigo = 2;
+
+insert into Emprestimo (codigoItem, codigoUsuario, finalizado) values (3, 2, false);
+update Item set qtdExemplaresDisponiveis = qtdExemplaresDisponiveis - 1, qtdExemplaresEmprestados = qtdExemplaresEmprestados + 1 where codigo = 3;
+
+insert into Emprestimo (codigoItem, codigoUsuario, finalizado) values (4, 2, false);
+update Item set qtdExemplaresDisponiveis = qtdExemplaresDisponiveis - 1, qtdExemplaresEmprestados = qtdExemplaresEmprestados + 1 where codigo = 4;
+
+Consulta para checar se deu tudo certo: 
+   select * from Emprestimo;
+   select * from Item;
+
+
+
