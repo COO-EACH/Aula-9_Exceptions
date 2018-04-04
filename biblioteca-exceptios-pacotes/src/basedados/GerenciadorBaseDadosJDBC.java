@@ -138,7 +138,8 @@ public class GerenciadorBaseDadosJDBC extends ConectorJDBC implements
 			throws BaseDadosException {
 		return null; // não encontrou
 	}
-
+	
+	//spekead
 	public LinkedList<Usuario> listaUsuarios() throws BaseDadosException {
 		LinkedList<Usuario> usuarios = new LinkedList<Usuario>();
 		abreConexao();

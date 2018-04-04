@@ -1,3 +1,5 @@
+//speaked
+
 package visualizacao;
 
 public class Validador {
